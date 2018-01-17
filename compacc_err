@@ -1,0 +1,19 @@
+#!/bin/csh -f
+#
+# Input Format: 
+
+cat $1 | awk -F, '\
+      BEGIN{total = 0; totalp2 =0}\
+      {TP=$1; FP=$2; FN=$3; TN=$4;\
+       if ((TP+TN)==0) {total+=0; totalp2+=0} \
+       else { \
+        total+=(TP+TN)/(TP+FP+FN+TN); \
+        totalp2+=((TP+TN)/(TP+FP+FN+TN))*((TP+TN)/(TP+FP+FN+TN))} \
+       } \
+      END{if (NR==0) {avg=0; std_err=0} \
+          else { \
+            avg=total/NR; \
+            std_dev=sqrt((totalp2-total*total/NR)/(NR-1)); \
+            std_err=std_dev/sqrt(NR) \
+          } \
+          printf("\t%s\t%s\n",100*avg,100*std_err) }'

@@ -1,0 +1,79 @@
+#!/bin/csh -f
+# 
+# This file is related to Metagol_NT,a noise tolerant version
+# of Metagol as described in the following paper:
+
+# S.H. Muggleton, W-Z. Dai, C. Sammut, A. Tamaddoni-Nezhad, J. Wen,
+# and Z-H. Zhou. Meta-interpretive learning from noisy images.
+# Machine Learning, 2018 (under review)
+
+# Metagol_NT is implemented as a Shell wrapper around Metagol.
+# Metagol_NT finds hypotheses consistent with randomly selected
+# subsets of the training examples and evaluates each resulting
+# hypothesis on the remaining training set, returning the
+# hypothesis with the highest score.
+#
+# The shell script should be used in the following way:
+#
+# metagol_nt bk_file pos_ex_file neg_ex_file k_pos k_neg max_runs
+#
+# where bk_file is the background file pos_ex_file and neg_ex_file
+# are the positive and negative example files,  k_pos and k_neg are
+# the number of sampled positive and negative examples and max_runs
+# is number of iterations
+
+
+set bk_file = $1
+set pos_ex_file = $2
+set neg_ex_file = $3
+set k_pos = $4
+set k_neg = $5
+set max_runs = $6
+
+@ i = 1
+@ max_score = 0
+@ curr_score = 0
+@ max  = 1
+
+rm  tr_pos_* ts_pos_* tr_neg_* ts_neg_* hyp_* eval_*
+while($i <= ${max_runs})
+    # myqsample Seed N FromFile Sample Complement
+    myqsample $i  ${k_pos} ${pos_ex_file}  tr_pos_$i ts_pos_$i
+    myqsample $i  ${k_neg} ${neg_ex_file}  tr_neg_$i ts_neg_$i
+   
+    # LEARN
+#    yap << %
+    swipl << %
+    ['${bk_file}'].
+    [tr_pos_$i].
+    [tr_neg_$i].
+    sp_load_all_ex_bk.
+    learn(hyp_$i).
+%
+    # EVALUATE
+#    yap << %
+    swipl << %    
+    ['${bk_file}'].
+    [ts_pos_$i].
+    [ts_neg_$i].
+    sp_load_all_ex_bk.    
+    [hyp_$i].
+    evaluate(eval_$i).
+%
+    echo -n "%Acc  Std_Err: " >> hyp_$i
+    ./compacc_err eval_$i >> hyp_$i
+    set curr_score = `grep "^%Acc" hyp_$i | awk '{ print($3); }'`
+
+    if (`echo "${max_score} < ${curr_score}" | bc`) then
+	echo $max
+	set max = $i
+	set max_score = ${curr_score}
+    endif
+    @ i++
+end  
+
+echo -n "Hypothesis with highest score:  "
+echo ${max_score}
+echo -n "File:  "
+echo hyp_${max}
+cat hyp_${max}
