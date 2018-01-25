@@ -33,10 +33,10 @@ Metagol cannot find any solution given these noisy examples, however, Metagol_NT
 Running Metagol_NT using the following at command line:
 $ ./metagol_nt bk.pl pos_ex.pl neg_ex.pl 4 1 4
 
-return the following solution:
+returns the following solution:
 
-Hypothesis with highest score:  100
 ```prolog
+Hypothesis with highest score:  100
 File:  hyp_1
 grandparent_1(A,B):-father(A,B).
 grandparent_1(A,B):-mother(A,B).
