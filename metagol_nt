@@ -42,21 +42,20 @@ while($i <= ${max_runs})
     myqsample $i  ${k_neg} ${neg_ex_file}  tr_neg_$i ts_neg_$i
    
     # LEARN
-#    yap << %
-    swipl << %
+    yap << %
+    :- use_module('metagol').
+    :- ['common.pl'].
     ['${bk_file}'].
     [tr_pos_$i].
     [tr_neg_$i].
-    sp_load_all_ex_bk.
     learn(hyp_$i).
 %
     # EVALUATE
-#    yap << %
-    swipl << %    
+    yap << %
+    :- ['common.pl'].
     ['${bk_file}'].
     [ts_pos_$i].
     [ts_neg_$i].
-    sp_load_all_ex_bk.    
     [hyp_$i].
     evaluate(eval_$i).
 %
