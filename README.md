@@ -13,19 +13,21 @@ metagol_nt bk_file pos_ex_file neg_ex_file k_pos k_neg max_runs
 For example, consider learning the grandparent relation given the mother and father relations as described in Metagol readme file. Suppose that the learning examples contain noise:
 
 Positive Examples:
+```prolog
 grandparent(ann,amelia).
 grandparent(steve,amelia).
 grandparent(steve,spongebob).
 grandparent(linda,amelia).
 grandparent(andy,spongebob). % Noise
-
+```
 Negative Examples:
+```prolog
 grandparent(amy,amelia).
 grandparent(ann,andy).
 grandparent(steve,andy).
 grandparent(linda,spongebob).
 grandparent(ann,spongebob). % Noise
-
+```
 Metagol cannot find any solution given these noisy examples, however, Metagol_NT finds the correct solution using the method described above.
 
 Running Metagol_NT using the following at command line:
@@ -34,10 +36,11 @@ $ ./metagol_nt bk.pl pos_ex.pl neg_ex.pl 4 1 4
 return the following solution:
 
 Hypothesis with highest score:  100
+```prolog
 File:  hyp_1
 grandparent_1(A,B):-father(A,B).
 grandparent_1(A,B):-mother(A,B).
 grandparent(A,B):-grandparent_1(A,C),grandparent_1(C,B).
 %Acc  Std_Err: 	100	0
-
+```
 For any queries please contact: atn@imperial.ac.uk
