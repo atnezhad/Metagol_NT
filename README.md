@@ -31,7 +31,7 @@ grandparent(ann,spongebob). % Noise
 Metagol cannot find any solution given these noisy examples, however, Metagol_NT finds the correct solution using the method described above.
 
 Running Metagol_NT using the following command:
-$ ./metagol_nt bk.pl pos_ex.pl neg_ex.pl 4 1 4
+$ ./metagol_nt bk.pl pos_ex.pl neg_ex.pl 4 1 2
 
 returns the following solution:
 
