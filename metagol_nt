@@ -36,6 +36,7 @@ set max_runs = $6
 @ max  = 1
 
 rm  tr_pos_* ts_pos_* tr_neg_* ts_neg_* hyp_* eval_*
+gcc myqsample.c -o myqsample
 while($i <= ${max_runs})
     # myqsample Seed N FromFile Sample Complement
     myqsample $i  ${k_pos} ${pos_ex_file}  tr_pos_$i ts_pos_$i
