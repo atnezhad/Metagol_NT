@@ -8,7 +8,7 @@ Metagol_NT is implemented as a Shell wrapper around Metagol. Metagol_NT finds hy
 The size of the training samples and the number of iterations (i.e. number of random samples) are user defined parameters. Metagol_NT returns the highest score hypothesis 'H_max' learned from randomly sampled examples from pos_ex_file and neg_ex_file after max_run iterations. The sample size is controlled by 'k_pos' and 'k_neg' which are the number of sampled positive and negative examples respectively, reflecting the noise level in the dataset.
 
 <!--The shell script should be used in the following way: -->
-#  shell script usage
+#  Shell script usage
 ```
 ./metagol_nt <path_to_bk_file> <path_to_pos_ex_file> <path_to_neg_ex_file> <k_pos> <k_neg> <max_runs>
 ```
@@ -25,7 +25,7 @@ grandparent(steve,spongebob).
 grandparent(linda,amelia).
 grandparent(andy,spongebob). % Noise
 ```
-Negative Examples:
+Negative Examples:consider learning the grandparent relation given the mother and father relations as described in Metagol readme file. Suppose that the learning examples contain noise
 ```prolog
 grandparent(amy,amelia).
 grandparent(ann,andy).
