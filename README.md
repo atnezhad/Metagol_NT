@@ -52,4 +52,4 @@ grandparent(A,B):-grandparent_1(A,C),grandparent_1(C,B).
 ```
 For any queries please contact: atn@imperial.ac.uk
 
-A Python version of metagol_nt is available from [here]https://github.com/danyvarghese/Metagol_NT
+A Python version of metagol_nt is available from [here](https://github.com/danyvarghese/Metagol_NT)
